@@ -8,6 +8,7 @@ const DEBUG = false;
 const iPhone = puppeteer.devices['iPhone X'];
 let rawdata = fs.readFileSync('./config.json');
 let config = JSON.parse(rawdata);
+let caption = fs.readFileSync('./upload_caption.txt', 'utf-8');
 
 (async () => {
   const browser = await puppeteer.launch({
@@ -60,7 +61,7 @@ let config = JSON.parse(rawdata);
 
   // write caption
   await page.waitFor('textarea');
-  await page.type('textarea', config.upload_caption, {delay: 50});
+  await page.type('textarea', caption, {delay: 50});
   if (DEBUG) await page.screenshot({path: 'typed_text.png'});
   const shareButtonArray = await page.$x("//button[contains(text(), 'Share')]");
   await shareButtonArray[0].tap();
